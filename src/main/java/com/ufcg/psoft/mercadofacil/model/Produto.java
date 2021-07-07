@@ -27,10 +27,12 @@ public class Produto {
 
 	private boolean isDisponivel;
 
+	private String descricao;
+
 	private Produto() {	}
 
 	public Produto(String nome, String codigoBarra, String fabricante,
-			BigDecimal preco, String nomeCategoria) {
+			BigDecimal preco, String nomeCategoria, String descricao) {
 		
 		this.nome = nome;
 		this.preco = preco;
@@ -38,6 +40,7 @@ public class Produto {
 		this.fabricante = fabricante;
 		this.categoria = nomeCategoria;
 		this.isDisponivel = false;
+		this.descricao = descricao;
 	}
 	
 	public Long getId() {
@@ -121,6 +124,14 @@ public class Produto {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
 	public String toString() {

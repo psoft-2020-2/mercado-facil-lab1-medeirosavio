@@ -3,6 +3,7 @@ package com.ufcg.psoft.mercadofacil.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufcg.psoft.mercadofacil.DTO.LoteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class LoteApiController {
 	}
 	
 	@RequestMapping(value = "/produto/{idProduto}/lote/", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("idProduto") long id, @RequestBody int numItens) {
+	public ResponseEntity<?> criarLote(@PathVariable("idProduto") long id, @RequestBody LoteDTO loteDTO) {
 		
 		Optional<Produto> optionalProduto = produtoService.getProdutoById(id);
 		
@@ -53,11 +54,12 @@ public class LoteApiController {
 		}
 		
 		Produto produto = optionalProduto.get();
-		Lote lote = loteService.criaLote(numItens, produto);
+		Lote lote = loteService.criaLote(loteDTO.getNumeroDeItens(), produto,loteDTO.getDateFormat());
 		
-		if (!produto.isDisponivel() & (numItens > 0)) {
+		if (!produto.isDisponivel() & (loteDTO.getNumeroDeItens() > 0)) {
 			produto.tornaDisponivel();
 			produtoService.salvarProdutoCadastrado(produto);
+
 		}
 
 		loteService.salvarLote(lote);

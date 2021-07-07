@@ -1,5 +1,6 @@
 package com.ufcg.psoft.mercadofacil.service;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,13 @@ public class LoteServiceImpl implements LoteService {
 		loteRepository.save(lote);		
 	}
 
-	public Lote criaLote(int numItens, Produto produto) {
-		Lote lote = new Lote(produto, numItens);
+
+	public Lote criaLote(int numItens, Produto produto, DateFormat dateFormat) {
+		Lote lote = new Lote(produto, numItens,dateFormat);
 		return lote;
 	}
+
+
+
+
 }

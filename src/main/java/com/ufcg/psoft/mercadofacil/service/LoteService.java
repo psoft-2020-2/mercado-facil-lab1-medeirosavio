@@ -1,5 +1,6 @@
 package com.ufcg.psoft.mercadofacil.service;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import com.ufcg.psoft.mercadofacil.model.Lote;
@@ -11,5 +12,5 @@ public interface LoteService {
 
 	public void salvarLote(Lote lote);
 	
-	public Lote criaLote(int numItens, Produto produto);
+	public Lote criaLote(int numItens, Produto produto, DateFormat dateFormat);
 }

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.text.DateFormat;
 
 @Entity
 public class Lote {
@@ -16,12 +17,15 @@ public class Lote {
 	@OneToOne
     private Produto produto;
     private int numeroDeItens;
+    private DateFormat dateFormat;
+
 
     private Lote() { }
     
-    public Lote(Produto produto, int numeroDeItens) {
+    public Lote(Produto produto, int numeroDeItens,DateFormat dateFormat) {
         this.produto = produto;
         this.numeroDeItens = numeroDeItens;
+        this.dateFormat = dateFormat;
     }
 
     public Long getId() {
