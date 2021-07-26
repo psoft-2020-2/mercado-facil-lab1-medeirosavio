@@ -1,27 +1,24 @@
 package com.ufcg.psoft.mercadofacil.DTO;
 
-import com.ufcg.psoft.mercadofacil.model.Produto;
-
-import java.text.DateFormat;
+import java.util.Date;
 
 public class LoteDTO {
 
     private int numeroDeItens;
-    private DateFormat dateFormat;
+    private Date dataDeValidade;
+    private long idProduto;
+
 
     public int getNumeroDeItens() {
         return numeroDeItens;
     }
 
-    public void setNumeroDeItens(int numeroDeItens) {
-        this.numeroDeItens = numeroDeItens;
+    public Date getDataDeValidade() {
+        return dataDeValidade;
     }
 
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
+    public long getIdProduto() {
+        return idProduto;
     }
 }
+
