@@ -1,5 +1,6 @@
 package com.ufcg.psoft.mercadofacil.controller;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,4 +97,6 @@ public class ProdutoApiController {
 
 		return new ResponseEntity<Produto>(HttpStatus.OK);
 	}
+
+
 }

@@ -1,8 +1,14 @@
 package com.ufcg.psoft.mercadofacil.controller;
 
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufcg.psoft.mercadofacil.DTO.ClienteDTO;
+import com.ufcg.psoft.mercadofacil.DTO.LoteDTO;
+import com.ufcg.psoft.mercadofacil.DTO.ProdutoDTO;
+import com.ufcg.psoft.mercadofacil.model.Cliente;
+import com.ufcg.psoft.mercadofacil.util.ErroCliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +50,7 @@ public class LoteApiController {
 	}
 	
 	@RequestMapping(value = "/produto/{idProduto}/lote/", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("idProduto") long id, @RequestBody int numItens) {
+	public ResponseEntity<?> criarLote(@PathVariable("idProduto") long id, @RequestBody LoteDTO loteDTO) {
 		
 		Optional<Produto> optionalProduto = produtoService.getProdutoById(id);
 		
@@ -53,15 +59,49 @@ public class LoteApiController {
 		}
 		
 		Produto produto = optionalProduto.get();
-		Lote lote = loteService.criaLote(numItens, produto);
+		Lote lote = loteService.criaLote(loteDTO.getNumeroDeItens(), produto,loteDTO.getDataDeValidade());
 		
-		if (!produto.isDisponivel() & (numItens > 0)) {
+		if (!produto.isDisponivel() & (loteDTO.getNumeroDeItens() > 0)) {
 			produto.tornaDisponivel();
 			produtoService.salvarProdutoCadastrado(produto);
+
 		}
 
 		loteService.salvarLote(lote);
 
 		return new ResponseEntity<>(lote, HttpStatus.CREATED);
 	}
+
+	@RequestMapping(value = "/lotes/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> consultarLote(@PathVariable("id") long id) {
+
+		Optional<Lote> optionalLote = loteService.getLoteById(id);
+
+		if (!optionalLote.isPresent()) {
+			return ErroLote.erroSemLotesCadastrados(id);
+		}
+
+		return new ResponseEntity<Lote>(optionalLote.get(), HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/lotes/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> atualizaLote(@PathVariable("id") long id, @RequestBody LoteDTO loteDTO) {
+
+		Optional<Lote> loteOptional = loteService.getLoteById(id);
+
+		if (!loteOptional.isPresent()) {
+			return ErroCliente.erroClienteNaoEnconrtrado(id);
+		}
+
+		Lote lote = loteOptional.get();
+
+		loteService.atualizaLote(loteDTO, lote);
+		loteService.salvarLote(lote);
+
+		return new ResponseEntity<Lote>(lote, HttpStatus.OK);
+	}
+
+
+
 }

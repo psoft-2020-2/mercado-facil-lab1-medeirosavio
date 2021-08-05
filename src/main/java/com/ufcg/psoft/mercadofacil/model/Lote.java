@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class Lote {
@@ -16,12 +19,16 @@ public class Lote {
 	@OneToOne
     private Produto produto;
     private int numeroDeItens;
-
-    private Lote() { }
+    private Date dataDeValidade;
     
-    public Lote(Produto produto, int numeroDeItens) {
+    public Lote(int numeroDeItens, Produto produto, Date dataDeValidade) {
         this.produto = produto;
         this.numeroDeItens = numeroDeItens;
+        this.dataDeValidade = dataDeValidade;
+    }
+
+    public Lote() {
+
     }
 
     public Long getId() {
@@ -36,13 +43,17 @@ public class Lote {
         this.produto = produto;
     }
 
-    public int getNumeroDeItens() {
-        return numeroDeItens;
-    }
-
     public void setNumeroDeItens(int numeroDeItens) {
         this.numeroDeItens = numeroDeItens;
     }
+
+    public void setDataDeValidade(Date dataDeValidade) {
+        this.dataDeValidade = dataDeValidade;
+    }
+
+    public void subtraiItensCliente(int numeroDeItens){this.numeroDeItens -= numeroDeItens;}
+
+    public void adicionaItensCliente(int numeroDeItens){this.numeroDeItens += numeroDeItens;}
 
     @Override
     public String toString() {

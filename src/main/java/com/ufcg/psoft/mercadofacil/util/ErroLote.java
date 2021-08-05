@@ -11,5 +11,10 @@ public class ErroLote {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(ErroLote.SEM_LOTES_CADASTRADOS),
 				HttpStatus.NO_CONTENT);
 	}
+
+    public static ResponseEntity<?> erroSemLotesCadastrados(long id) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroLote.SEM_LOTES_CADASTRADOS, id)),
+				HttpStatus.NOT_FOUND);
+    }
 }
 
