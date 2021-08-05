@@ -22,4 +22,10 @@ public interface ClienteService {
 	
 	public Cliente atualizaCliente(ClienteDTO clienteDTO, Cliente cliente);
 
+	public String selecionaNormal();
+
+	public String selecionaEspecial();
+
+	public String selecionaPremium();
+
 }

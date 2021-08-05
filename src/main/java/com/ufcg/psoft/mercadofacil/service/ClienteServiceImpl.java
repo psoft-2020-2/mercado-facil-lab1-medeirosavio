@@ -49,4 +49,22 @@ public class ClienteServiceImpl implements ClienteService {
 		
 		return cliente;
 	}
+
+	public String selecionaNormal() {
+		Cliente cliente = new Cliente();
+		return cliente.selecionaNormal();
+	}
+
+	public String selecionaEspecial() {
+		Cliente cliente = new Cliente();
+		return cliente.selecionaEspecial();
+	}
+
+
+	public String selecionaPremium() {
+		Cliente cliente = new Cliente();
+		return cliente.selecionaPremium();
+	}
+
+
 }
