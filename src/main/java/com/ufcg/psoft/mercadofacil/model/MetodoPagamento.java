@@ -1,8 +1,6 @@
 package com.ufcg.psoft.mercadofacil.model;
 
 
-import java.util.Optional;
-
 public class MetodoPagamento implements Pagamento{
 
     private String boleto;

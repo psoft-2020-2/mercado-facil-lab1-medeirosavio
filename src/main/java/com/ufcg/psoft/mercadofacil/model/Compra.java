@@ -24,9 +24,6 @@ public class Compra {
         this.itensComprados = new ArrayList<>();
         this.metodoPagamento = new MetodoPagamento();
     }
-    public List<ItemProduto> getItensComprados() {
-        return itensComprados;
-    }
 
     public Long getId() {
         return id;

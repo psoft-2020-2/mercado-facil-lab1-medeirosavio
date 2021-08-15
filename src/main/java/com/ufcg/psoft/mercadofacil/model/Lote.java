@@ -53,7 +53,6 @@ public class Lote {
 
     public void subtraiItensCliente(int numeroDeItens){this.numeroDeItens -= numeroDeItens;}
 
-    public void adicionaItensCliente(int numeroDeItens){this.numeroDeItens += numeroDeItens;}
 
     @Override
     public String toString() {
