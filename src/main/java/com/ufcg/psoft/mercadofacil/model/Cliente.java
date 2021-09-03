@@ -22,6 +22,8 @@ public class Cliente {
 
 	private String endereco;
 
+	private static Perfil perfilCliente;
+
 	public Cliente() {}
 
 	public Cliente(Long cpf, String nome, Integer idade, String endereco) {
@@ -29,6 +31,7 @@ public class Cliente {
 		this.nome = nome;
 		this.idade = idade;
 		this.endereco = endereco;
+		this.perfilCliente = new TipoPerfil();
 	}
 
 
@@ -69,5 +72,17 @@ public class Cliente {
 	}
 
 	public String finalizaCompra(Compra compra){return compra.toString();}
+
+	public String selecionaNormal(){
+		return perfilCliente.getNormal();
+	}
+
+	public String selecionaEspecial(){
+		return perfilCliente.getEspecial();
+	}
+
+	public String selecionaPremium(){
+		return perfilCliente.getPremium();
+	}
 
 }

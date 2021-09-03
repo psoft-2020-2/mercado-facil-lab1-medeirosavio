@@ -7,14 +7,18 @@ import com.ufcg.psoft.mercadofacil.model.Cliente;
 import com.ufcg.psoft.mercadofacil.model.Compra;
 import com.ufcg.psoft.mercadofacil.model.Lote;
 import com.ufcg.psoft.mercadofacil.service.CarrinhoService;
+import com.ufcg.psoft.mercadofacil.service.ClienteService;
 import com.ufcg.psoft.mercadofacil.service.CompraService;
 import com.ufcg.psoft.mercadofacil.service.LoteService;
+import com.ufcg.psoft.mercadofacil.util.ErroCliente;
 import com.ufcg.psoft.mercadofacil.util.ErroCompra;
+import com.ufcg.psoft.mercadofacil.util.ErroMetodoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +36,9 @@ public class CompraApiController {
     @Autowired
     CarrinhoService carrinhoService;
 
+    @Autowired
+    ClienteService clienteService;
+
     @RequestMapping(value="/clientes/{idcliente}/{idcarrinho}/{id]" ,method = RequestMethod.POST)
         public ResponseEntity<?> efetuaCompra(@PathVariable("idcliente")long idCliente,@PathVariable("idcarrinho")long idCarrinho
                                                 ,@PathVariable ("id") long idCompra,@RequestBody CompraDTO compraDTO){
@@ -39,7 +46,34 @@ public class CompraApiController {
         Optional<Lote> loteOptional = loteService.getLoteById(compraDTO.getIdLote());
         Optional<Carrinho> carrinhoOptional = carrinhoService.getCarrinhoById(idCarrinho);
 
-        String efetuaPagamento = compraService.efetuaPagamento();
+        Optional<String> metodoPagamento = compraDTO.getMetodoPagamento();
+
+        if(metodoPagamento.isEmpty()){
+            return ErroMetodoPagamento.erroSemMetodoPagamentoCadastrado();
+        }
+
+        if(!metodoPagamento.isPresent()){
+            return ErroMetodoPagamento.erroSemMetodoPagamentoCadastrado();
+        }
+
+        BigDecimal valorCompra = new BigDecimal("0");
+
+        if(metodoPagamento.equals("cartao")){
+            valorCompra.add(compraService.selecionaPagamentoBoleto());
+        }else if(metodoPagamento.equals("PayPal")){
+            valorCompra.add(compraService.selecionaPagamentoPayPal());
+        }else {
+            valorCompra.add(compraService.selecionaPagamentoCartao());
+        }
+
+        Optional<String> perfilCliente = compraDTO.getPerfilCliente();
+        Integer numeroItens = compraDTO.getNumeroDeItens();
+
+        if(perfilCliente.equals("especial") && numeroItens>=10){
+            valorCompra.subtract(valorCompra).multiply(new BigDecimal("0.10"));
+        }else if(perfilCliente.equals("premium")&& numeroItens>=5){
+            valorCompra.multiply(valorCompra).multiply(new BigDecimal("0.10"));
+        }
 
         Compra compra  = compraService.efetuaCompra(idCompra);
         Lote lote = loteOptional.get();
@@ -47,6 +81,7 @@ public class CompraApiController {
 
         lote.subtraiItensCliente(compraDTO.getNumeroDeItens());
         carrinhoService.removeCarrinho(carrinho);
+        compraService.salvarCompra(compra);
 
         return new ResponseEntity<Compra>(compra, HttpStatus.CREATED);
     }
