@@ -17,8 +17,5 @@ public class LoteDTO {
         return dataDeValidade;
     }
 
-    public long getIdProduto() {
-        return idProduto;
-    }
 }
 

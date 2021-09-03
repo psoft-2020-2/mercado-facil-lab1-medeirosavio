@@ -55,9 +55,6 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
-	}
 
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
@@ -71,16 +68,8 @@ public class Produto {
 		this.fabricante = fabricante;
 	}
 
-	public String getCodigoBarra() {
-		return codigoBarra;
-	}
-
 	public void setCodigoBarra(String codigoBarra) {
 		this.codigoBarra = codigoBarra;
-	}
-
-	public String getCategoria() {
-		return this.categoria;
 	}
 
 	public void mudaCategoria(String categoria) {
@@ -126,9 +115,6 @@ public class Produto {
 		return true;
 	}
 
-	public String getDescricao() {
-		return descricao;
-	}
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;

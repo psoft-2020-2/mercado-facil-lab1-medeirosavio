@@ -25,14 +25,6 @@ public class CompraDTO {
         return nome;
     }
 
-    public String getFabricante() {
-        return fabricante;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
     public int getNumeroDeItens() {
         return numeroDeItens;
     }
